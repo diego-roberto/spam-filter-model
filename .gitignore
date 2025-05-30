@@ -1,3 +1,10 @@
+hard_ham/
+easy_ham/
+spam/
+
+*.tar
+*.bz2
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
