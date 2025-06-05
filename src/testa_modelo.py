@@ -6,16 +6,18 @@ from pre_processamento import limpar_texto
 MODELS_DIR = "models"
 VEC_PATH = os.path.join(MODELS_DIR, "tfidf_vectorizer.pkl")
 MODEL_PATH = os.path.join(MODELS_DIR, "modelo_final.pkl")
+THRESH_PATH = os.path.join(MODELS_DIR, "threshold.pkl")
 
-print("Carregando modelo e vetorizador...")
+print("Carregando modelo, vetorizador e threshold...")
 vectorizer = joblib.load(VEC_PATH)
 model = joblib.load(MODEL_PATH)
+threshold = joblib.load(THRESH_PATH)
 
 def classificar_email(texto):
     texto_limpo = limpar_texto(texto)
     vetor = vectorizer.transform([texto_limpo])
-    predicao = model.predict(vetor)[0]
-    return predicao
+    prob_spam = model.predict_proba(vetor)[0][1]
+    return "spam" if prob_spam >= threshold else "not spam"
 
 # exemplos #
 emails = [
